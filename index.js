@@ -142,14 +142,14 @@ function getAvgChanges(financesArray) {
 
   // use the reduce function to calculate the sum of the changes in Profit/Losses
   const sumChanges = financesArray.reduce((accVal, currItem, index, arr) => {
-    if (index === 0) return 0;
-
-    const prevItem = arr[index - 1];
+    // The accVal is the first item of the array, the currItem is the second item of the array and the index is 1 in the first iteraction.
+    const prevItem = index === 1 ? accVal : arr[index - 1];
     const diffInMonth = currItem[1] - prevItem[1];
-    const currAccVal = accVal + diffInMonth;
+    // return the difference as the accumulator in the first iteraction
+    const currAccVal = (index === 1 ? 0 : accVal) + diffInMonth;
 
     return currAccVal;
-  }, 0);
+  });
 
   // get total number of months
   const monthsTotal = getMonthsTotal(finances);
