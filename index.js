@@ -133,6 +133,34 @@ function getNetTotal(financesArray) {
   return netTotal;
 }
 
+// calculate the avergage of changes in  Profit/Losses over the entire period
+function getAvgChanges(financesArray) {
+  let avgChanges = 0;
+
+  // return null if financesArray is empty
+  if (isArrayEmpty(financesArray)) return null;
+
+  // use the reduce function to calculate the sum of the changes in Profit/Losses
+  const sumChanges = financesArray.reduce((accVal, currItem, index, arr) => {
+    if (index === 0) return 0;
+
+    const prevItem = arr[index - 1];
+    const diffInMonth = currItem[1] - prevItem[1];
+    const currAccVal = accVal + diffInMonth;
+
+    return currAccVal;
+  }, 0);
+
+  // get total number of months
+  const monthsTotal = getMonthsTotal(finances);
+
+  // average changes = sumChanages / number of month comparisions
+  // round the result to 2 decimal places
+  avgChanges = parseFloat((sumChanges / (monthsTotal - 1)).toFixed(2));
+
+  return avgChanges;
+}
+
 // ------------------------------------ Utility Functions ------------------------------//
 // Check if an array is empty, return true if an array is empty.
 function isArrayEmpty(array) {
@@ -144,3 +172,5 @@ const netTotal = getNetTotal(finances);
 console.log("netTotal: ", netTotal);
 const monthsTotal = getMonthsTotal(finances);
 console.log("monthsTotal: ", monthsTotal);
+const avgChanges = getAvgChanges(finances);
+console.log("avgChanges: ", avgChanges);
