@@ -115,4 +115,6 @@ function isArrayEmpty(array) {
   return !(array && Array.isArray(array) && array.length > 0);
 }
 
-getNetTotal(finances);
+// ------------------------------------ Print Out Results in Console ------------------------------//
+const netTotal = getNetTotal(finances);
+console.log("netTotal: ", netTotal);
