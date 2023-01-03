@@ -88,6 +88,30 @@ var finances = [
 ];
 
 // ------------------------------------ Calculation Functions ------------------------------//
+// Get the total number of months
+function getMonthsTotal(financesArray) {
+  // store month-year string in this array, e.g. ["Jan-2017","Feb-2017"]
+  let monthsYearsArray = [];
+
+  // return null if financesArray is empty
+  if (isArrayEmpty(financesArray)) return null;
+
+  // loop throught items in financesArray
+  financesArray.forEach((monthFinanceArray) => {
+    // add month-year string("Jan-2017") if it isn't in monthsYearsArray
+    // to avoid duplicates
+    if (
+      !isArrayEmpty(monthFinanceArray) &&
+      typeof monthFinanceArray[0] === "string" &&
+      monthsYearsArray.indexOf(monthFinanceArray[0] < 0)
+    ) {
+      monthsYearsArray.push(monthFinanceArray[0]);
+    }
+  });
+
+  return monthsYearsArray.length;
+}
+
 // Get the net total amount of Profit/Losses over the entire period
 function getNetTotal(financesArray) {
   let netTotal = 0;
@@ -118,3 +142,5 @@ function isArrayEmpty(array) {
 // ------------------------------------ Print Out Results in Console ------------------------------//
 const netTotal = getNetTotal(finances);
 console.log("netTotal: ", netTotal);
+const monthsTotal = getMonthsTotal(finances);
+console.log("monthsTotal: ", monthsTotal);
