@@ -161,6 +161,37 @@ function getAvgChanges(financesArray) {
   return avgChanges;
 }
 
+// get the greatest increase in profits (date and amount) over the entire period
+function getGreatestIncreaseInProfilts(financesArray) {
+  // return null if financesArray is empty
+  if (isArrayEmpty(financesArray)) return null;
+
+  // Use reduce function to compare profit from month to month to find the greatest profit.
+  // The result is an object that contains dateStr and profit properties.
+  const result = financesArray.reduce((accVal, currItem, index, arr) => {
+    const prevItem = arr[index - 1];
+    const diffInMonth = currItem[1] - prevItem[1];
+    let currAccVal = null;
+
+    if (index === 1) {
+      // set the accumulator value to the first comparision result
+      currAccVal = { dateStr: currItem[0], profit: diffInMonth };
+    } else if (index >= 1) {
+      // if the calculated profit is greater than the profit that is stored from the current accumulator's profit,
+      // update the accumulator according to this month data, otherwise, return the current accumulator
+      if (diffInMonth > accVal.profit) {
+        currAccVal = { dateStr: currItem[0], profit: diffInMonth };
+      } else {
+        currAccVal = accVal;
+      }
+    }
+
+    return currAccVal;
+  });
+
+  return result;
+}
+
 // ------------------------------------ Utility Functions ------------------------------//
 // Check if an array is empty, return true if an array is empty.
 function isArrayEmpty(array) {
@@ -174,3 +205,5 @@ const monthsTotal = getMonthsTotal(finances);
 console.log("monthsTotal: ", monthsTotal);
 const avgChanges = getAvgChanges(finances);
 console.log("avgChanges: ", avgChanges);
+const greatestProfit = getGreatestIncreaseInProfilts(finances);
+console.log("greatestProfit: ", greatestProfit);
