@@ -161,12 +161,14 @@ function getAvgChanges(financesArray) {
   return avgChanges;
 }
 
-// get the greatest increase in profits (date and amount) over the entire period
-function getGreatestIncreaseInProfilts(financesArray) {
+// Get the greatest increase/decrease in profits (date and amount) over the entire period.
+// If toGetIncreaseInProfit is true, the function returns the greatest increase in profits, otherwise, it
+// returns the greatest loses in profits.
+function getGreatestIncOrDecInProfilts(financesArray, toGetIncreaseInProfit) {
   // return null if financesArray is empty
   if (isArrayEmpty(financesArray)) return null;
 
-  // Use reduce function to compare profit from month to month to find the greatest profit.
+  // Use reduce function to compare profit from month to month to find the greatest increase/decrease profit.
   // The result is an object that contains dateStr and profit properties.
   const result = financesArray.reduce((accVal, currItem, index, arr) => {
     const prevItem = arr[index - 1];
@@ -177,9 +179,13 @@ function getGreatestIncreaseInProfilts(financesArray) {
       // set the accumulator value to the first comparision result
       currAccVal = { dateStr: currItem[0], profit: diffInMonth };
     } else if (index >= 1) {
-      // if the calculated profit is greater than the profit that is stored from the current accumulator's profit,
-      // update the accumulator according to this month data, otherwise, return the current accumulator
-      if (diffInMonth > accVal.profit) {
+      // If toGetIncreaseInProfit is true and the calculated profit is greater than the profit that is stored from the current accumulator's profit or
+      // If toGetIncreaseInProfit is false and the calculated profit is smaller than the profit that is stored from the current accumulator's profit
+      // update the accumulator according to this month data, otherwise, return the current accumulator.
+      if (
+        (toGetIncreaseInProfit && diffInMonth > accVal.profit) ||
+        (!toGetIncreaseInProfit && diffInMonth < accVal.profit)
+      ) {
         currAccVal = { dateStr: currItem[0], profit: diffInMonth };
       } else {
         currAccVal = accVal;
