@@ -99,7 +99,7 @@ function getMonthsTotal(financesArray) {
   // loop throught items in financesArray
   financesArray.forEach((monthFinanceArray) => {
     // add month-year string("Jan-2017") if it isn't in monthsYearsArray
-    // to avoid duplicates
+    // to avoid counting the duplicated date in financesArray
     if (
       !isArrayEmpty(monthFinanceArray) &&
       typeof monthFinanceArray[0] === "string" &&
