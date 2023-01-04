@@ -204,12 +204,21 @@ function isArrayEmpty(array) {
   return !(array && Array.isArray(array) && array.length > 0);
 }
 
-// ------------------------------------ Print Out Results in Console ------------------------------//
+// ------------------------------------ Print Out The Data Analysis in Console ------------------------------//
+// get all data from functions
 const netTotal = getNetTotal(finances);
-console.log("netTotal: ", netTotal);
 const monthsTotal = getMonthsTotal(finances);
-console.log("monthsTotal: ", monthsTotal);
 const avgChanges = getAvgChanges(finances);
-console.log("avgChanges: ", avgChanges);
-const greatestProfit = getGreatestIncreaseInProfilts(finances);
-console.log("greatestProfit: ", greatestProfit);
+const greatestProfit = getGreatestIncOrDecInProfilts(finances, true);
+const greatestLost = getGreatestIncOrDecInProfilts(finances, false);
+
+// print out the analysis to the console
+console.log(`
+Financial Analysis
+----------------------------
+Total Months: ${monthsTotal}
+Total: $${netTotal}
+Average  Change: $-2315.12
+Greatest Increase in Profits: ${greatestProfit.dateStr} ($${greatestProfit.profit})
+Greatest Decrease in Profits: ${greatestLost.dateStr} ($${greatestLost.profit})
+`);
