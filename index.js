@@ -183,9 +183,9 @@ function getGreatestIncOrDecInProfilts(financesArray, toGetIncreaseInProfit) {
       // set the accumulator value to the first comparision result
       currAccVal = { dateStr: currItem[0], profit: diffInMonth };
     } else if (index >= 1) {
-      // If toGetIncreaseInProfit is true and the calculated profit is greater than the profit that is stored from the current accumulator's profit or
-      // If toGetIncreaseInProfit is false and the calculated profit is smaller than the profit that is stored from the current accumulator's profit
-      // update the accumulator according to this month data, otherwise, return the current accumulator.
+      // (If toGetIncreaseInProfit is true and the calculated profit is greater than the profit that is stored from the current accumulator's profit) or
+      // (If toGetIncreaseInProfit is false and the calculated profit is smaller than the profit that is stored from the current accumulator's profit),
+      // then update the accumulator according to this month data, otherwise, return the current accumulator.
       if (
         (toGetIncreaseInProfit && diffInMonth > accVal.profit) ||
         (!toGetIncreaseInProfit && diffInMonth < accVal.profit)
