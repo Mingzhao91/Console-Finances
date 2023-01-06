@@ -142,21 +142,25 @@ function getAvgChanges(financesArray) {
 
   // use the reduce function to calculate the sum of the changes in Profit/Losses
   const sumChanges = financesArray.reduce((accVal, currItem, index, arr) => {
-    // The accVal is the first item of the array, the currItem is the second item of the array and the index is 1 in the first iteraction.
-    const prevItem = index === 1 ? accVal : arr[index - 1];
-    const diffInMonth = currItem[1] - prevItem[1];
-    // return the difference as the accumulator in the first iteraction
-    const currAccVal = (index === 1 ? 0 : accVal) + diffInMonth;
+    let currAccVal = 0;
+
+    if (index === 0) {
+      // the change is the profit/loss of the first item
+      currAccVal = currItem[1];
+    } else {
+      const prevItem = arr[index - 1];
+      // calculate the difference between current selected month and its previous month
+      const diffInMonth = currItem[1] - prevItem[1];
+      // sum up the difference with previous accmulation for the next interaction
+      currAccVal = accVal + diffInMonth;
+    }
 
     return currAccVal;
-  });
+  }, 0);
 
-  // get total number of months
-  const monthsTotal = getMonthsTotal(finances);
-
-  // average changes = sumChanages / number of month comparisions
+  // average changes = sumChanages / total number of months
   // round the result to 2 decimal places
-  avgChanges = parseFloat((sumChanges / (monthsTotal - 1)).toFixed(2));
+  avgChanges = parseFloat((sumChanges / getMonthsTotal(finances)).toFixed(2));
 
   return avgChanges;
 }
@@ -218,7 +222,7 @@ Financial Analysis
 ----------------------------
 Total Months: ${monthsTotal}
 Total: $${netTotal}
-Average  Change: $-2315.12
+Average  Change: $${avgChanges}
 Greatest Increase in Profits: ${greatestProfit.dateStr} ($${greatestProfit.profit})
 Greatest Decrease in Profits: ${greatestLost.dateStr} ($${greatestLost.profit})
 `);
